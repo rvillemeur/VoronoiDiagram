@@ -9,3 +9,5 @@ Metacello new
 	onConflictUseIncoming;
 	load
 ```
+
+And then, choose either `VoronoiBloc openDefault` or `VoronoiMorph openDefault`
