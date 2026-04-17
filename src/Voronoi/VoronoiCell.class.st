@@ -38,7 +38,7 @@ VoronoiCell class >> site: aSite vertices: aCollection [
 
 { #category : 'computing' }
 VoronoiCell >> area [
-"Computes the signed area using the shoelace formula.
+	"Computes the signed area using the shoelace formula.
 	 Returns a positive value for counterclockwise winding."
 
 	| n sum |
@@ -50,9 +50,7 @@ VoronoiCell >> area [
 			j := i \\ n + 1.
 			p1 := vertices at: i.
 			p2 := vertices at: j.
-			sum := sum
-			       +
-			       (p1 x asFloat * p2 y asFloat - (p2 x asFloat * p1 y asFloat)) ].
+			sum := sum + (p1 x * p2 y - (p2 x * p1 y)) ].
 	^ sum abs / 2.0
 ]
 
@@ -77,17 +75,17 @@ VoronoiCell >> containsPoint: aPoint [
 	n := vertices size.
 	n < 3 ifTrue: [ ^ false ].
 	inside := false.
-	px := aPoint x asFloat.
-	py := aPoint y asFloat.
+	px := aPoint x .
+	py := aPoint y .
 	j := n.
 	1 to: n do: [ :i |
 			| vi vj |
 			vi := vertices at: i.
 			vj := vertices at: j.
-			vi y asFloat > py ~= (vj y asFloat > py) ifTrue: [
+			vi y  > py ~= (vj y  > py) ifTrue: [
 					| xIntersect |
-					xIntersect := vj x asFloat - vi x asFloat * (py - vi y asFloat)
-					              / (vj y asFloat - vi y asFloat) + vi x asFloat.
+					xIntersect := vj x  - vi x  * (py - vi y )
+					              / (vj y  - vi y ) + vi x .
 					px < xIntersect ifTrue: [ inside := inside not ] ].
 			j := i ].
 	^ inside

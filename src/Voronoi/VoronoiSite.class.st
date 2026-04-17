@@ -52,7 +52,7 @@ VoronoiSite class >> x: anX y: aY [
 { #category : 'comparing' }
 VoronoiSite >> = other [
 
-	(other isKindOf: VoronoiSite) ifFalse: [ ^ false ].
+	(other isKindOf: self class) ifFalse: [ ^ false ].
 	^ position = other position
 ]
 

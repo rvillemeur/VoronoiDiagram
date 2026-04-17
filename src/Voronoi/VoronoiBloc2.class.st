@@ -81,7 +81,7 @@ VoronoiBloc2 >> drawSites [
 			cy := site y asFloat.
 			elt := BlElement new 
 			geometry: (BlCircleGeometry new matchExtent: 5@5 );
-			extent: 5@5;
+			extent: 7@7;
 		  background: Color red.
 		self addChild: elt.
 		elt position:  cx - r @ (cy - r) ].

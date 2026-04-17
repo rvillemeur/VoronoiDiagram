@@ -79,7 +79,7 @@ VoronoiHalfPlane >> c [
 { #category : 'computing' }
 VoronoiHalfPlane >> evaluate: aPoint [
 "Signed value: negative means inside, positive means outside."
-	^ (a * aPoint x asFloat) + (b * aPoint y asFloat) + c
+	^ (a * aPoint x ) + (b * aPoint y ) + c
 ]
 
 { #category : 'computing' }
@@ -89,13 +89,13 @@ VoronoiHalfPlane >> intersectionOf: p1 with: p2 [
 	f1 := self evaluate: p1.
 	f2 := self evaluate: p2.
 	t := f1 / (f1 - f2).
-	^ (p2 x - p1 x) asFloat * t + p1 x asFloat
-	  @ ((p2 y - p1 y) asFloat * t + p1 y asFloat)
+	^ (p2 x - p1 x)  * t + p1 x 
+	  @ ((p2 y - p1 y)  * t + p1 y )
 ]
 
 { #category : 'testing' }
 VoronoiHalfPlane >> isInside: aPoint [
 	"True if a*x + b*y + c <= 0 (point is closer to siteS)."
 
-	^ a * aPoint x asFloat + (b * aPoint y asFloat) + c <= 0.0
+	^ a * aPoint x  + (b * aPoint y ) + c <= 0.0
 ]
