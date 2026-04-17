@@ -8,7 +8,6 @@ Trait {
 		'showSites',
 		'showEdges',
 		'showCells',
-		'cellColors',
 		'diagramBounds'
 	],
 	#category : 'Voronoi-view',
@@ -39,7 +38,6 @@ VoronoiViewTrait >> clearSites [
 	diagram := VoronoiDiagram new
 		           bounds: diagram bounds;
 		           yourself.
-	cellColors := Dictionary new.
 	self refresh
 ]
 
@@ -84,7 +82,6 @@ VoronoiViewTrait >> initConstant [
 	diagram := VoronoiDiagram new
 		           bounds: (0 @ 0 corner: self diagramBounds );
 		           yourself.
-	cellColors := Dictionary new.
 ]
 
 { #category : 'accessing' }
