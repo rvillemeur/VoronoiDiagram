@@ -122,7 +122,7 @@ VoronoiMorph >> handlesMouseDown: anEvent [
 
 { #category : 'initialization' }
 VoronoiMorph >> initElement [ 
-	self extent: 500 @ 500.
+	self extent: self diagramBounds .
 	self color: Color white
 ]
 

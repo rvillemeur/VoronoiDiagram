@@ -131,7 +131,7 @@ VoronoiBloc >> drawSites: aeCanvas [
 
 { #category : 'initialization' }
 VoronoiBloc >> initElement [
-	self extent: 500 @ 500.
+	self extent: self diagramBounds .
 	self background: Color white asBlBackground.
 	self installMouseHandler
 ]

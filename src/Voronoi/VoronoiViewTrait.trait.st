@@ -8,7 +8,8 @@ Trait {
 		'showSites',
 		'showEdges',
 		'showCells',
-		'cellColors'
+		'cellColors',
+		'diagramBounds'
 	],
 	#category : 'Voronoi-view',
 	#package : 'Voronoi',
@@ -90,6 +91,19 @@ VoronoiViewTrait >> diagram: aDiagram [
 
 ]
 
+{ #category : 'accessing' }
+VoronoiViewTrait >> diagramBounds [
+
+	diagramBounds ifNil: [ ^ diagramBounds := 500 @ 500 ].
+	^ diagramBounds
+]
+
+{ #category : 'accessing' }
+VoronoiViewTrait >> diagramBounds: aPoint [
+diagramBounds := aPoint .
+self refresh
+]
+
 { #category : 'initialization' }
 VoronoiViewTrait >> initConstant [
 
@@ -97,7 +111,7 @@ VoronoiViewTrait >> initConstant [
 	showEdges := true.
 	showCells := true.
 	diagram := VoronoiDiagram new
-		           bounds: (0 @ 0 corner: 500 @ 500);
+		           bounds: (0 @ 0 corner: self diagramBounds );
 		           yourself.
 	cellColors := Dictionary new.
 	self initElement.

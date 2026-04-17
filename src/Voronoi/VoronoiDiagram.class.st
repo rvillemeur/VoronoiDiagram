@@ -7,6 +7,8 @@ Algorithm — half-plane clipping (O(n^3)):
   every other site T. The result is the Voronoi cell of S.
   Clipping uses the Sutherland-Hodgman algorithm (see #clip:by:).
 
+[algorithm Reference](https://inria.hal.science/hal-00647979/file/main.pdf)
+
 Instance variables:
 -  sites   <OrderedCollection of VoronoiSite>  — seed points
 -  cells   <OrderedCollection of VoronoiCell>  — computed cells (one per site)
