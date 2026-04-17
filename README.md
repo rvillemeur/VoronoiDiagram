@@ -1,5 +1,7 @@
 An implementation of Voronoi Diagram for Pharo
 
+![voronoi example](voronoiDiagram.png)
+
 GUI include morphic and Bloc
 
 ```st
