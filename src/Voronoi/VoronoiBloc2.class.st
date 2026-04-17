@@ -56,9 +56,7 @@ VoronoiBloc2 >> addCell: acell [
 	verts := acell vertices.
 	verts size >= 3 ifFalse: [ ^ self ].
 	elt := BlElement new geometry: (BlPolylineGeometry vertices: verts).
-	showCells ifTrue: [
-			elt background:
-				(cellColors at: acell site ifAbsent: [ Color lightGray ]) ].
+	showCells ifTrue: [ elt background: Color random ].
 	showEdges ifTrue: [
 		elt border: (BlBorder paint: Color black width: 1) ].
 	self addChild: elt
@@ -122,5 +120,5 @@ VoronoiBloc2 >> installMouseHandler [
 VoronoiBloc2 >> refresh [
 	diagram cells do: [ :cell | self addCell: cell ].
 	showSites ifTrue: [ self drawSites ].
-	self invalidate
+
 ]

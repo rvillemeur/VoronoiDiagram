@@ -53,10 +53,10 @@ VoronoiMorph class >> openDefault [
 { #category : 'drawing' }
 VoronoiMorph >> drawCellsOn: aCanvas [
 	diagram cells do: [ :cell |
-		| verts color |
+		| verts |
 		verts := cell vertices.
 		verts size >= 3 ifTrue: [
-			color := cellColors at: cell site ifAbsent: [ Color lightGray ].
+			color := Color random.
 			self drawPolygon: verts on: aCanvas fill: color ] ]
 ]
 
