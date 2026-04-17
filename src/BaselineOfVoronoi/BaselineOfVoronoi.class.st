@@ -14,5 +14,5 @@ BaselineOfVoronoi >> baseline: spec [
 			spec
 				baseline: 'Bloc'
 				with: [
-				spec repository: 'github://pharo-graphics/Bloc:v2.5.0/src' ] ]
+				spec repository: 'github://pharo-graphics/Bloc:dev/src' ] ]
 ]
