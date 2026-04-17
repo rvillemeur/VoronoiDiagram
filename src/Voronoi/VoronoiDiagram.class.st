@@ -58,7 +58,6 @@ VoronoiDiagram >> addSite: aSite [
 
 	aSite index ifNil: [ aSite index: sites size + 1 ].
 	sites add: aSite.
-	cells := OrderedCollection new.
 	^ aSite
 ]
 

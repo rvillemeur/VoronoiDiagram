@@ -56,12 +56,6 @@ VoronoiSite >> = other [
 	^ position = other position
 ]
 
-{ #category : 'comparing' }
-VoronoiSite >> hash [
-
-	^ position hash
-]
-
 { #category : 'accessing' }
 VoronoiSite >> index [
 
