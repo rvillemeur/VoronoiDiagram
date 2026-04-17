@@ -94,14 +94,16 @@ VoronoiViewTrait >> diagram: aDiagram [
 { #category : 'accessing' }
 VoronoiViewTrait >> diagramBounds [
 
-	diagramBounds ifNil: [ ^ diagramBounds := 500 @ 500 ].
+	diagramBounds ifNil: [ diagramBounds := 500 @ 500 ].
 	^ diagramBounds
 ]
 
 { #category : 'accessing' }
 VoronoiViewTrait >> diagramBounds: aPoint [
-diagramBounds := aPoint .
-self refresh
+
+	diagramBounds := aPoint.
+	diagram  bounds: (0 @ 0 corner: diagramBounds ).
+	self initElement
 ]
 
 { #category : 'initialization' }
@@ -114,7 +116,6 @@ VoronoiViewTrait >> initConstant [
 		           bounds: (0 @ 0 corner: self diagramBounds );
 		           yourself.
 	cellColors := Dictionary new.
-	self initElement.
 ]
 
 { #category : 'accessing' }
