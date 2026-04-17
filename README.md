@@ -1,5 +1,6 @@
 An implementation of Voronoi Diagram for Pharo
-GUI include morphic an
+
+GUI include morphic and Bloc
 
 ```st
 Metacello new
