@@ -16,6 +16,8 @@ VoronoiMorph renders a VoronoiDiagram using Morphic.
 Class {
 	#name : 'VoronoiMorph',
 	#superclass : 'Morph',
+	#traits : 'VoronoiViewTrait',
+	#classTraits : 'VoronoiViewTrait classTrait',
 	#instVars : [
 		'diagram',
 		'showSites',
@@ -46,91 +48,6 @@ VoronoiMorph class >> openDefault [
 	morph := self new.
 	morph addRandomSites: 120.
 	^ morph openInWindow
-]
-
-{ #category : 'building' }
-VoronoiMorph >> addRandomSites: count [
-
-	| w h |
-	w := diagram bounds width.
-	h := diagram bounds height.
-	count timesRepeat: [
-		diagram addSiteAt: 10 + (w - 20) atRandom @ (10 + (h - 20) atRandom) ].
-	self computeAndRefresh
-]
-
-{ #category : 'building' }
-VoronoiMorph >> addSiteAt: aPoint [
-	diagram addSiteAt: aPoint.
-	self computeAndRefresh
-]
-
-{ #category : 'private' }
-VoronoiMorph >> assignCellColors [
-
-	| palette |
-	palette := self colorPalette.
-	cellColors := Dictionary new.
-	diagram cells doWithIndex: [ :cell :i |
-		cellColors
-			at: cell site
-			put: (palette at: i - 1 \\ palette size + 1) ]
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> cellColors [
-
-	^ cellColors
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> cellColors: anObject [
-
-	cellColors := anObject
-]
-
-{ #category : 'building' }
-VoronoiMorph >> clearSites [
-	diagram := VoronoiDiagram new bounds: diagram bounds; yourself.
-	cellColors := Dictionary new.
-	self changed
-]
-
-{ #category : 'private' }
-VoronoiMorph >> colorPalette [
-	^ Array withAll: {  
-		. (Color r: 0.8 g: 0.6 b: 0.6)
-		. (Color r: 0.6 g: 0.8 b: 0.6)
-		. (Color r: 0.6 g: 0.6 b: 0.9)
-		. (Color r: 0.9 g: 0.9 b: 0.6)
-		. (Color r: 0.9 g: 0.7 b: 0.5)
-		. (Color r: 0.6 g: 0.9 b: 0.9)
-		. (Color r: 0.9 g: 0.6 b: 0.9)
-		. (Color r: 0.7 g: 0.85 b: 0.7)
-		. (Color r: 0.85 g: 0.7 b: 0.85)
-		. (Color r: 0.7 g: 0.7 b: 0.85)
-		. (Color r: 0.85 g: 0.85 b: 0.7)
-		. (Color r: 0.75 g: 0.9 b: 0.8) }
-
-]
-
-{ #category : 'private' }
-VoronoiMorph >> computeAndRefresh [
-	diagram sites isEmpty ifFalse: [ diagram compute ].
-	self assignCellColors.
-	self changed
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> diagram [
-
-	^ diagram
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> diagram: anObject [
-
-	diagram := anObject
 ]
 
 { #category : 'drawing' }
@@ -204,17 +121,17 @@ VoronoiMorph >> handlesMouseDown: anEvent [
 ]
 
 { #category : 'initialization' }
-VoronoiMorph >> initialize [
-	super initialize.
-	showSites := true.
-	showEdges := true.
-	showCells := true.
+VoronoiMorph >> initElement [ 
 	self extent: 500 @ 500.
-	self color: Color white.
-	diagram := VoronoiDiagram new
-		bounds: (0 @ 0 corner: 500 @ 500);
-		yourself.
-	cellColors := Dictionary new
+	self color: Color white
+]
+
+{ #category : 'initialization' }
+VoronoiMorph >> initialize [
+
+	super initialize.
+	self initConstant.
+	self initElement
 ]
 
 { #category : 'event handling' }
@@ -227,38 +144,7 @@ VoronoiMorph >> mouseDown: anEvent [
 
 ]
 
-{ #category : 'accessing' }
-VoronoiMorph >> showCells [
-
-	^ showCells
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> showCells: anObject [
-
-	showCells := anObject
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> showEdges [
-
-	^ showEdges
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> showEdges: anObject [
-
-	showEdges := anObject
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> showSites [
-
-	^ showSites
-]
-
-{ #category : 'accessing' }
-VoronoiMorph >> showSites: anObject [
-
-	showSites := anObject
+{ #category : 'building' }
+VoronoiMorph >> refresh [
+	self changed
 ]

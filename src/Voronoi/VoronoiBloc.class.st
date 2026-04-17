@@ -15,8 +15,10 @@ Usage:
 ```
 "
 Class {
-	#name : 'VoronoiBlocView',
+	#name : 'VoronoiBloc',
 	#superclass : 'BlElement',
+	#traits : 'VoronoiViewTrait',
+	#classTraits : 'VoronoiViewTrait classTrait',
 	#instVars : [
 		'diagram',
 		'showSites',
@@ -30,7 +32,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-VoronoiBlocView class >> on: aDiagram [
+VoronoiBloc class >> on: aDiagram [
 
 	^ self new
 		  diagram: aDiagram;
@@ -38,7 +40,7 @@ VoronoiBlocView class >> on: aDiagram [
 ]
 
 { #category : 'instance creation' }
-VoronoiBlocView class >> openDefault [ 
+VoronoiBloc class >> openDefault [ 
 <sampleInstance>
 	"VoronoiBlocView openDefault"
 	| view |
@@ -48,25 +50,8 @@ VoronoiBlocView class >> openDefault [
 	^ view
 ]
 
-{ #category : 'building' }
-VoronoiBlocView >> addRandomSites: count [
-
-	| w h |
-	w := diagram bounds width.
-	h := diagram bounds height.
-	count timesRepeat: [
-		diagram addSiteAt: 10 + (w - 20) atRandom @ (10 + (h - 20) atRandom) ].
-	self computeAndRefresh
-]
-
-{ #category : 'building' }
-VoronoiBlocView >> addSiteAt: aPoint [ 
-	diagram addSiteAt: aPoint.
-	self computeAndRefresh
-]
-
 { #category : 'drawing' }
-VoronoiBlocView >> aeDrawOn: aeCanvas [ 
+VoronoiBloc >> aeDrawOn: aeCanvas [ 
 	"Entry point called by the Bloc rendering pipeline. 	 aeCanvas is an Alexandrie Canvas - Cairo front-end to draw custom BlElement"
 	super aeDrawOn:  aeCanvas.
 	showCells ifTrue: [ self drawCells: aeCanvas ].
@@ -74,67 +59,8 @@ VoronoiBlocView >> aeDrawOn: aeCanvas [
 	showSites ifTrue: [ self drawSites: aeCanvas ]
 ]
 
-{ #category : 'private' }
-VoronoiBlocView >> assignCellColors [
-
-	| palette |
-	palette := self colorPalette.
-	cellColors := Dictionary new.
-	diagram cells doWithIndex: [ :cell :i |
-		cellColors
-			at: cell site
-			put: (palette at: i - 1 \\ palette size + 1) ]
-]
-
-{ #category : 'building' }
-VoronoiBlocView >> clearSites [
-
-	diagram := VoronoiDiagram new
-		           bounds: diagram bounds;
-		           yourself.
-	cellColors := Dictionary new.
-	self invalidate
-]
-
-{ #category : 'private' }
-VoronoiBlocView >> colorPalette [
-
-	^ Array withAll: {
-			  (Color r: 0.8 g: 0.6 b: 0.6).
-			  (Color r: 0.6 g: 0.8 b: 0.6).
-			  (Color r: 0.6 g: 0.6 b: 0.9).
-			  (Color r: 0.9 g: 0.9 b: 0.6).
-			  (Color r: 0.9 g: 0.7 b: 0.5).
-			  (Color r: 0.6 g: 0.9 b: 0.9).
-			  (Color r: 0.9 g: 0.6 b: 0.9).
-			  (Color r: 0.7 g: 0.85 b: 0.7).
-			  (Color r: 0.85 g: 0.7 b: 0.85).
-			  (Color r: 0.7 g: 0.7 b: 0.85).
-			  (Color r: 0.85 g: 0.85 b: 0.7).
-			  (Color r: 0.75 g: 0.9 b: 0.8) }
-]
-
-{ #category : 'private' }
-VoronoiBlocView >> computeAndRefresh [
-	diagram sites isEmpty ifFalse: [ diagram compute ].
-	self assignCellColors.
-	self invalidate
-]
-
-{ #category : 'accessing' }
-VoronoiBlocView >> diagram [ 
-	^ diagram
-]
-
-{ #category : 'accessing' }
-VoronoiBlocView >> diagram: aDiagram [ 
-	diagram := aDiagram.
-	cellColors := Dictionary new.
-	self computeAndRefresh
-]
-
 { #category : 'drawing' }
-VoronoiBlocView >> drawCells: aCanvas [
+VoronoiBloc >> drawCells: aCanvas [
 
 	diagram cells do: [ :cell |
 			| verts color |
@@ -145,7 +71,7 @@ VoronoiBlocView >> drawCells: aCanvas [
 ]
 
 { #category : 'drawing' }
-VoronoiBlocView >> drawEdges: aeCanvas [
+VoronoiBloc >> drawEdges: aeCanvas [
 
 	diagram cells do: [ :cell |
 			| verts n |
@@ -170,7 +96,7 @@ VoronoiBlocView >> drawEdges: aeCanvas [
 ]
 
 { #category : 'drawing' }
-VoronoiBlocView >> drawPolygon: vertices on: aeCanvas fill: aColor [
+VoronoiBloc >> drawPolygon: vertices on: aeCanvas fill: aColor [
 
 	aeCanvas pathFactory: [ :cairoContext |
 			cairoContext moveTo:
@@ -186,7 +112,7 @@ VoronoiBlocView >> drawPolygon: vertices on: aeCanvas fill: aColor [
 ]
 
 { #category : 'drawing' }
-VoronoiBlocView >> drawSites: aeCanvas [
+VoronoiBloc >> drawSites: aeCanvas [
 
 	| r |
 	r := 2.0.
@@ -204,23 +130,22 @@ VoronoiBlocView >> drawSites: aeCanvas [
 ]
 
 { #category : 'initialization' }
-VoronoiBlocView >> initialize [
-
-	super initialize.
-	showSites := true.
-	showEdges := true.
-	showCells := true.
+VoronoiBloc >> initElement [
 	self extent: 500 @ 500.
 	self background: Color white asBlBackground.
-	diagram := VoronoiDiagram new
-		           bounds: (0 @ 0 corner: 500 @ 500);
-		           yourself.
-	cellColors := Dictionary new.
 	self installMouseHandler
 ]
 
 { #category : 'initialization' }
-VoronoiBlocView >> installMouseHandler [ 
+VoronoiBloc >> initialize [
+
+	super initialize.
+	self initConstant.
+	self initElement
+]
+
+{ #category : 'initialization' }
+VoronoiBloc >> installMouseHandler [ 
 	self addEventHandlerOn: BlMouseDownEvent do: [ :event |
 		| pos |
 		pos := event position x truncated @ event position y truncated.
@@ -229,37 +154,7 @@ VoronoiBlocView >> installMouseHandler [
 			event consume ] ]
 ]
 
-{ #category : 'accessing' }
-VoronoiBlocView >> showCells [  ^ showCells 
-]
-
-{ #category : 'accessing' }
-VoronoiBlocView >> showCells: aBoolean [
-
-	showCells := aBoolean.
-	self invalidate
-]
-
-{ #category : 'accessing' }
-VoronoiBlocView >> showEdges [  ^ showEdges 
-]
-
-{ #category : 'accessing' }
-VoronoiBlocView >> showEdges: aBoolean [
-
-	showEdges := aBoolean.
-	self invalidate
-]
-
-{ #category : 'accessing' }
-VoronoiBlocView >> showSites [
-
-	^ showSites 
-]
-
-{ #category : 'accessing' }
-VoronoiBlocView >> showSites: aBoolean [
-
-	showSites := aBoolean.
+{ #category : 'building' }
+VoronoiBloc >> refresh [
 	self invalidate
 ]
