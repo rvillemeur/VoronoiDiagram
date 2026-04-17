@@ -93,7 +93,6 @@ VoronoiViewTrait >> diagram: aDiagram [
 { #category : 'initialization' }
 VoronoiViewTrait >> initConstant [
 
-	super initialize.
 	showSites := true.
 	showEdges := true.
 	showCells := true.
